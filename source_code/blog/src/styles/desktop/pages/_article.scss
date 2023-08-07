@@ -1,0 +1,67 @@
+.article {
+  border-radius: 12px;
+  border: 4px solid #898121;
+  background: #FFF;
+  padding: 40px;
+  position: relative;
+
+  $options-btn-width: 50px;
+
+  .options-btn {
+    position: absolute;
+    $position: 40px;
+    top: $position;
+    right: $position;
+
+    .icon-container {
+      $size: $options-btn-width;
+      width: $size;
+      height: $size;
+      border: 2px solid #000000;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      background: #fff;
+      box-shadow: 4px 4px #2bff00;
+      font-size: 24px;
+    }
+  }
+
+  .article-details {
+    padding-right: $options-btn-width;
+    margin-bottom: 20px;
+
+    h1 {
+      font-weight: 900;
+      font-size: 35px;
+    }
+
+    p {
+      font-size: 24px;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    .date {
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .content {
+    font-family: 'Nunito', sans-serif;
+  }
+}

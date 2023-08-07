@@ -1,0 +1,201 @@
+@import "../variables";
+@import "pages/home";
+@import "pages/articles";
+@import "modules";
+
+
+.grid-container {
+  display: grid;
+  grid-template-rows: $header_height auto;
+  grid-template-columns: $aside auto;
+  grid-template-areas:
+          "aside header"
+          "aside main";
+
+  .section-container {
+    width: 100%;
+    height: 100%;
+    max-width: $desktop;
+    margin: 0 auto;
+  }
+
+  header {
+    grid-area: header;
+    background: colors(header_bg);
+    height: $header_height;
+    padding: 0 40px;
+    box-shadow: 0 6px 12px 0 #cccccc47;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    right: 0;
+    width: calc(100% - 250px);
+    z-index: 3;
+
+    .notification, .comments {
+      @include circle(50px);
+      position: relative;
+      cursor: pointer;
+
+      .log {
+        @include circle(20px);
+        background: colors(aside_bg);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 12px;
+      }
+
+      .dropdown-popup {
+        width: 300px;
+
+        .log-item {
+          background: #dcdc;
+          padding: 5px;
+          border-radius: 12px;
+          margin-bottom: 10px;
+
+          .title {
+            white-space: break-spaces;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            font-size: 16px;
+            margin-bottom: 5px;
+          }
+
+          .date {
+            font-size: 12px;
+            color: gray;
+          }
+
+          .delete-icon {
+            $size: 35px;
+            width: $size;
+            height: 100%;
+            min-width: $size;
+          }
+        }
+
+        p.empty {
+          text-align: center;
+          padding: 20px 0;
+        }
+
+        button.clear-all {
+          width: 100%;
+          height: 35px;
+          border-radius: 12px;
+        }
+      }
+    }
+
+    .search-input {
+      $input_height: $header_height - 30px;
+      width: 300px;
+      height: $input_height;
+      border: 2px solid #000000;
+      border-radius: $input_height;
+      overflow: hidden;
+
+      input {
+        width: 100%;
+        height: 100%;
+        padding-left: 20px;
+        border: none;
+        outline: none;
+      }
+    }
+
+    button.write {
+      padding: 5px 10px;
+      gap: 20px;
+      background: colors(button);
+      margin-right: 40px;
+      font-weight: bold;
+      box-shadow: 4px 4px black;
+    }
+
+    .log-out {
+      @include circle(30px);
+      cursor: pointer;
+
+      &:hover {
+        background: #ccc;
+      }
+    }
+
+  }
+
+  aside {
+    grid-area: aside;
+    padding: 20px;
+    background: colors(aside_bg);
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+
+    .logo {
+      $size: 120px;
+      width: $size;
+      height: $size;
+      border-radius: $size;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 4px solid colors(main_bg);
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+
+    p.username {
+      width: 100%;
+      text-align: center;
+    }
+
+    nav {
+      margin-top: 40px;
+
+      .nav-item {
+        display: flex;
+        text-decoration: none;
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        $link_color: #000;
+        color: $link_color;
+
+        &.active {
+          background: colors(aside_active_bg);
+          color: colors(aside_active_text);
+        }
+
+        &:hover {
+          background: #fff;
+          color: #000;
+          opacity: .4;
+        }
+
+        &:visited {
+          color: $link_color;
+        }
+      }
+    }
+  }
+
+  main {
+    grid-area: main;
+    overflow: hidden;
+    padding: 20px;
+  }
+}
+

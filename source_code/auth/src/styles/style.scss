@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap');
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+main{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  .main-container{
+    width: 50%;
+    height: 100vh;
+    position: relative;
+
+    .container{
+      width: 500px;
+      height: fit-content;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h1{
+      font-size: 45px;
+      margin-bottom: 40px;
+    }
+
+    p.label{
+      font-size: 18px;
+      color: #676767;
+      margin-bottom: 40px;
+    }
+
+    .remember{
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      input{
+        $size: 24px;
+        width: $size;
+        height: $size;
+      }
+    }
+
+    .input-container{
+      width: 100%;
+      margin-bottom: 20px;
+      label{
+        font-weight: 500;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        line-height: 35px;
+        font-size: 18px;
+      }
+      input{
+        width: 100%;
+        height: 45px;
+        border-radius: 12px;
+        padding: 0 10px;
+        font-size: 18px;
+        box-shadow: 4px 4px #000;
+      }
+    }
+    button{
+      width: 100%;
+      height: 45px;
+      border-radius: 12px;
+
+      &.submit{
+        background: linear-gradient(44deg, #FFAAF1 0%, #F4F2DE 100%);
+        box-shadow: 4px 4px #000;
+      }
+
+      &.google-signIn{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+
+        .google-logo{
+          $size: 30px;
+          width: $size;
+          height: $size;
+          margin-right: 10px;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    .or-container{
+      margin: 40px 0;
+      text-align: center;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      opacity: .4;
+
+      span{
+        position: absolute;
+        top: -11px;
+        background: #fff;
+        width: 45px;
+      }
+
+      hr{
+        width: 100%;
+      }
+
+    }
+    
+  }
+  .cover{
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(45deg, #FFAAF1 0%, #F4F2DE 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    &:before{
+      content: '';
+      display: block;
+      width: 2px;
+      height: 100vh;
+      background: #fff;
+      position: absolute;
+      top: 0;
+      left: 200px;
+      box-shadow:
+              200px 0 #fff,
+              400px 0 #fff,
+              600px 0 #fff
+    ;
+    }
+
+    &:after{
+      content: '';
+      display: block;
+      width: 2px;
+      height: 1000px;
+      background: #fff;
+      transform: rotate(90deg);
+      position: absolute;
+      top: -400px;
+      left: 400px;
+      box-shadow:
+              200px 0 #fff,
+              400px 0 #fff,
+              600px 0 #fff
+    ;
+    }
+
+    p{
+      font-size: 80px;
+      //background: #fff;
+      width: 400px;
+      padding: 20px;
+      font-weight: bold;
+      border-radius: 24px;
+      text-align: center;
+      position: relative;
+      z-index: 9;
+      background-color: rgb(255 255 255 / 0.3);
+      backdrop-filter: blur(10px);
+
+    }
+  }
+}

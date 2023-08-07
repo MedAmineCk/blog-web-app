@@ -1,0 +1,21 @@
+.topic-btn, .author {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 35px;
+  width: fit-content;
+  margin: 4px;
+  text-decoration: none;
+  color: #000;
+}
+
+.card {
+  background: #fff;
+  border: 2px solid black;
+  border-radius: 12px;
+  box-shadow: 4px 4px #000;
+  overflow: hidden;
+  position: relative;
+}

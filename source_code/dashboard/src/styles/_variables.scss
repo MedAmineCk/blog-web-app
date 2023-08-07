@@ -1,0 +1,35 @@
+$colors: (
+        main_bg: #F4F2DE,
+        aside_bg: #FFAAF1FF,
+        aside_active_bg: #fff,
+        aside_active_text: #000,
+        header_bg: #fff,
+        button: #79DEDE
+);
+@function colors($color-name) {
+  @return map-get($map: $colors, $key: $color-name);
+}
+
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: $size;
+}
+
+@mixin button($color) {
+  color: $color;
+  &:hover {
+    color: #fff;
+    background: $color;
+  }
+}
+
+
+$desktop: 1280px;
+$aside: 250px;
+$main: $desktop - $aside;
+$header_height: 60px;
+
+//******** Fonts ********//
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Public+Sans:wght@400;500;700;900&family=Roboto&display=swap');
+

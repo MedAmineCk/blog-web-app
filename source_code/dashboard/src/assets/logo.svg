@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 65.19 52.22">
+    <defs>
+        <style>
+            .cls-1 {
+            letter-spacing: 0em;
+            }
+
+            .cls-2 {
+            letter-spacing: -.02em;
+            }
+
+            .cls-3 {
+            fill: #878787;
+            font-size: 8.67px;
+            }
+
+            .cls-4 {
+            letter-spacing: -.03em;
+            }
+
+            .cls-5 {
+            fill: none;
+            stroke: url(#Orange_Yellow);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2px;
+            }
+        </style>
+        <linearGradient id="Orange_Yellow" data-name="Orange, Yellow" x1="57.92" y1="45.22" x2="15.73" y2="3.03"
+                        gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffef26"/>
+            <stop offset=".02" stop-color="#fee921"/>
+            <stop offset=".1" stop-color="#fdd70e"/>
+            <stop offset=".19" stop-color="#fdcb03"/>
+            <stop offset=".28" stop-color="#fdc800"/>
+            <stop offset=".67" stop-color="#f18f34"/>
+            <stop offset=".89" stop-color="#e95f32"/>
+            <stop offset="1" stop-color="#e3312d"/>
+        </linearGradient>
+    </defs>
+    <g id="Layer_1-2" data-name="Layer 1">
+        <g>
+            <g>
+                <text class="cls-3" transform="translate(24.67 9.21) rotate(89.95)">
+                    <tspan class="cls-2" x="0" y="0">v</tspan>
+                    <tspan x="4.58" y="0">aluab</tspan>
+                    <tspan class="cls-4" x="30.88" y="0">l</tspan>
+                    <tspan class="cls-1" x="33.22" y="0">e</tspan>
+                </text>
+                <text class="cls-3" transform="translate(34.32 49.72)">
+                    <tspan x="0" y="0">Articles</tspan>
+                </text>
+            </g>
+            <path class="cls-5"
+                  d="m19.35,16.71v31.91S17.05,26.07,1,19.18c6.2-2.97,12.33-4.05,18.35-2.47Zm44.84,20.83c-.03-11.51-10.52-9.83-10.52-9.83,0,0,12.48-3.31,10.25-14.65S50.99,1,50.99,1h-31.65v15.71m22.39-7.58h-6.21v11.03h6.21s4.39-.21,4.56-5.52c-.17-5.31-4.56-5.52-4.56-5.52Zm4.57,5.41s0,.07,0,.11c0,.04,0,.07,0,.11v-.22Zm-4.57,14.59h-6.21v11.03h6.21s4.39-.21,4.56-5.52c-.17-5.31-4.56-5.52-4.56-5.52Zm4.57,5.41s0,.07,0,.11c0,.04,0,.07,0,.11v-.22Z"/>
+        </g>
+    </g>
+</svg>

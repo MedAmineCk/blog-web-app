@@ -1,0 +1,20 @@
+@import "variables";
+
+html, body {
+  background: colors(app_background);
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: 'Public Sans', sans-serif;
+}
+
+// Import mobile or desktop styles for each page based on screen size
+//@media (max-width: 768px) {
+//  @import 'mobile';
+//}
+
+@media (min-width: 769px) {
+  @import 'desktop';
+}

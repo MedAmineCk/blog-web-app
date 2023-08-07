@@ -1,0 +1,28 @@
+RewriteEngine On
+
+# Redirect root to the blog's dist folder
+RewriteRule ^$ /blog/ [L]
+
+# Serve static files directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirect /dashboard to the dashboard's dist folder
+RewriteRule ^dashboard(/|$) /dashboard/ [L]
+
+# Serve index.html from dashboard's dist folder
+RewriteRule ^dashboard/$ /dashboard/index.html [L]
+
+# Redirect /auth to the auth's dist folder
+RewriteRule ^auth(/|$) /auth/ [L]
+
+# Serve index.html from auth's dist folder
+RewriteRule ^auth/$ /auth/index.html [L]
+
+# Handle client-side routing for React app
+RewriteRule ^(.*)$ /blog/$1
+RewriteCond %{REQUEST_URI} !\.(jpg|jpeg|png|gif|css|js|ico|svg)$ [NC]
+
+# Handle client-side routing for React app
+RewriteRule ^(.*)$ /blog/index.html [L]

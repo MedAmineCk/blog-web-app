@@ -1,0 +1,18 @@
+$colors: (
+        app_background: #F4F2DE,
+        card_background: #fff,
+        label: #FFAAF1,
+        link: #B6D5FF
+);
+@function colors($color-name) {
+  @return map-get($map: $colors, $key: $color-name);
+}
+
+$desktop: 1280px;
+$aside: 350px;
+$main: $desktop - $aside;
+$header_height: 60px;
+
+//******** Fonts ********//
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Public+Sans:wght@400;500;700;900&family=Roboto&display=swap');
+

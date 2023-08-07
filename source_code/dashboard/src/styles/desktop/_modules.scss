@@ -1,0 +1,27 @@
+.card {
+  background: #fff;
+  border: 2px solid black;
+  border-radius: 12px;
+  box-shadow: 4px 4px #000;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+
+  .label {
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+}
+
+.dropdown-popup {
+  background: #fff;
+  border: 2px solid #cdcd;
+  border-radius: 12px;
+  padding: 10px;
+  position: absolute;
+  top: 60px;
+  width: fit-content;
+  white-space: nowrap;
+  box-shadow: 4px 4px #000;
+}
