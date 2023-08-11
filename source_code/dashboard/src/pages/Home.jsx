@@ -48,8 +48,8 @@ export const Home = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {ads.map((adObj) => (
-                        <tr>
+                    {ads.map((adObj, index) => (
+                        <tr key={index}>
                             <td>#{adObj.id}</td>
                             <td>{adObj.type}</td>
                             <td>{adObj.reach}</td>

@@ -7,6 +7,8 @@ import {CommentsIcon} from "./ui/CommentsIcon.jsx";
 import {NotificationItem} from "./ui/NotificationItem";
 import notificationsData from "../data/notifications.js";
 import commentsData from "../data/comments.js";
+import authService from "../auth/AuthService.js";
+import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -59,6 +61,17 @@ export const Header = () => {
         setComments([])
     }
 
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        try {
+            await authService.logout();
+            // Redirect to the login page after successful logout
+            navigate('/auth')
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    };
+
     return (
         <header className="flex-container">
             <div className="flex-container">
@@ -104,7 +117,7 @@ export const Header = () => {
                         <FiEdit2/>
                     </span>
                 </button>
-                <div className="icon-container log-out flex-center">
+                <div className="icon-container log-out flex-center" onClick={handleLogout}>
                     <AiOutlineLogout/>
                 </div>
             </div>

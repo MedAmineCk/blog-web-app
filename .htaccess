@@ -14,11 +14,8 @@ RewriteRule ^dashboard(/|$) /dashboard/ [L]
 # Serve index.html from dashboard's dist folder
 RewriteRule ^dashboard/$ /dashboard/index.html [L]
 
-# Redirect /auth to the auth's dist folder
-RewriteRule ^auth(/|$) /auth/ [L]
-
-# Serve index.html from auth's dist folder
-RewriteRule ^auth/$ /auth/index.html [L]
+# Handle requests to /api by directly serving the PHP files
+RewriteRule ^api(/|$) /api/$1 [L]
 
 # Handle client-side routing for React app
 RewriteRule ^(.*)$ /blog/$1
