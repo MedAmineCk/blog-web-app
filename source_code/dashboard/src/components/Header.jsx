@@ -8,7 +8,7 @@ import {NotificationItem} from "./ui/NotificationItem";
 import notificationsData from "../data/notifications.js";
 import commentsData from "../data/comments.js";
 import authService from "../auth/AuthService.js";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -111,12 +111,12 @@ export const Header = () => {
                 </div>
             </div>
             <div className="flex-container">
-                <button className="write flex-container">
+                <Link to="/dashboard/editor" className="write flex-container">
                     <span>Write</span>
                     <span className="icon-container">
                         <FiEdit2/>
                     </span>
-                </button>
+                </Link>
                 <div className="icon-container log-out flex-center" onClick={handleLogout}>
                     <AiOutlineLogout/>
                 </div>

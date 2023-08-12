@@ -8,6 +8,7 @@ import { Settings } from "./pages/Settings";
 import PrivateRoute from "./auth/PrivateRoute.jsx";
 import {Login} from "./auth/Login";
 import {AuthRoute} from "./auth/AuthRoute";
+import {ArticleEditor} from "./pages/ArticleEditor";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/dashboard" element={<DashboardLayout />}>
                         <Route index element={<Home />} />
                         <Route path="articles" element={<Articles />} />
+                        <Route path="editor" element={<ArticleEditor />} />
                         <Route path="reviews" element={<Reviews />} />
                         <Route path="ads" element={<Ads />} />
                         <Route path="settings" element={<Settings />} />
