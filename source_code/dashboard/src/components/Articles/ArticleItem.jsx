@@ -5,9 +5,11 @@ import {BiLinkExternal, BiSolidEdit} from "react-icons/bi";
 import {useEffect, useState} from "react";
 
 
-export const ArticleItem = ({article, data, totalChecked}) => {
-    const {thumbnail, title, subtitle, date, category, type} = article;
-    const {reads, comments, favorites} = data;
+export const ArticleItem = ({article, totalChecked}) => {
+    const {id, thumbnail_url, subtitle,  title, is_public, created_at, tags, categories} = article;
+    const reads = 0;
+    const comments = 0;
+    const favorites = 0;
 
     const [isArticleChecked, setIsArticleChecked] = useState(false);
     const handleArticleChange = (event) => {
@@ -24,16 +26,16 @@ export const ArticleItem = ({article, data, totalChecked}) => {
             </td>
             <td className="thumbnail">
                 <div className="thumbnail-container">
-                    <img src={thumbnail} alt="article thumbnail"/>
+                    <img src={`http://localhost/api/uploads/${thumbnail_url}`} alt="article thumbnail"/>
                 </div>
             </td>
             <td className="details">
                 <div className="title">{title}</div>
                 <div className="subtitle">{subtitle}</div>
-                <div className="date">{date}</div>
+                <div className="date">{created_at}</div>
             </td>
-            <td className="category">{category}</td>
-            <td className="type">{type}</td>
+            <td className="category">{categories.map(cat => cat.name).join(', ')}</td>
+            <td className="type">{tags}</td>
             <td className="data">
                 <div className="container">
                     <div className="flex-container">

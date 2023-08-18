@@ -16,6 +16,7 @@ CREATE TABLE articles (
                           content TEXT,
                           thumbnail_url VARCHAR(255),
                           is_public BOOLEAN DEFAULT 0,
+                          is_pinned BOOLEAN DEFAULT 0,
                           tags VARCHAR(255),
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

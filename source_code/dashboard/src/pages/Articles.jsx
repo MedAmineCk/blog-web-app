@@ -6,6 +6,7 @@ import articles from "../data/articles.js";
 import {ArticleItem} from "../components/Articles/ArticleItem.jsx";
 import {useEffect, useRef, useState} from "react";
 import {DropdownPopup} from "../components/Shared/DropdownPopup";
+import axios from "axios";
 
 export const Articles = () => {
     const filters = ["All", "Articles", "Reviews"];
@@ -38,6 +39,20 @@ export const Articles = () => {
         setIsTotalCheckboxChecked(event.target.checked)
     }
 
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+    const fetchArticles = async () => {
+        try {
+            const response = await axios.get("http://localhost/api/requests/article/get-articles.php");
+            setArticles(response.data);
+        } catch (error) {
+            console.error("Error fetching articles:", error);
+        }
+    }
 
     return (
         <main className="articles-page">
@@ -101,8 +116,7 @@ export const Articles = () => {
                     {articles.map((article, index) => (
                         <ArticleItem
                             key={index}
-                            article={article.articleObj}
-                            data={article.dataObj}
+                            article={article}
                             totalChecked={isTotalCheckboxChecked}
                         />
                     ))}

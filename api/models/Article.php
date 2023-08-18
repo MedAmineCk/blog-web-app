@@ -50,10 +50,8 @@ class Article {
             $stmt->close();
 
             $this->deleteArticleCategories($articleId); // Delete existing category relationships
-            $this->deleteArticleTags($articleId);       // Delete existing tag relationships
 
             $this->insertArticleCategories($articleId, $categoryIds); // Insert new category relationships
-            $this->insertArticleTags($articleId, $tagIds);           // Insert new tag relationships
 
             return true;
         } else {
@@ -69,18 +67,11 @@ class Article {
         $stmt->close();
     }
 
-    private function deleteArticleTags($articleId) {
-        $stmt = $this->conn->prepare("DELETE FROM article_tags WHERE article_id = ?");
-        $stmt->bind_param("i", $articleId);
-        $stmt->execute();
-        $stmt->close();
-    }
 
 
     public function deleteArticle($articleId) {
         // Delete article categories and tags relationships
         $this->deleteArticleCategories($articleId);
-        $this->deleteArticleTags($articleId);
 
         // Delete the article itself
         $stmt = $this->conn->prepare("DELETE FROM articles WHERE id = ?");
@@ -97,51 +88,40 @@ class Article {
 
 
     public function getArticle($articleId) {
-        $query = "SELECT id, title, subtitle, content, thumbnail_url, is_public, created_at, updated_at 
-              FROM articles WHERE id = ?";
+        $query = "SELECT * FROM articles WHERE id = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $articleId);
+        $stmt->execute([$articleId]);
 
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            $article = $result->fetch_assoc();
-            $stmt->close();
+        if ($stmt->rowCount() > 0) {
+            $article = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
 
-            if ($article) {
-                // Retrieve article categories and tags
-                $article['categories'] = $this->getArticleCategories($articleId);
-                $article['tags'] = $this->getArticleTags($articleId);
+            // Retrieve article categories and tags
+            $article['categories'] = $this->getArticleCategories($articleId);
 
-                return $article;
-            } else {
-                return null; // Article not found
-            }
+            return $article;
         } else {
-            $stmt->close();
-            return null; // Error occurred
+            return null; // Article not found
         }
     }
 
 
+
     public function getArticles() {
-        $query = "SELECT id, title, subtitle, content, thumbnail_url, is_public, created_at, updated_at 
-              FROM articles";
-        $result = $this->conn->query($query);
+        $query = "SELECT * FROM articles";
+        $stmt = $this->conn->query($query);
 
         $articles = array();
 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                // Retrieve article categories and tags
-                $row['categories'] = $this->getArticleCategories($row['id']);
-                $row['tags'] = $this->getArticleTags($row['id']);
-
-                $articles[] = $row;
-            }
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Retrieve article categories and tags
+            $row['categories'] = $this->getArticleCategories($row['id']);
+            $articles[] = $row;
         }
 
         return $articles;
     }
+
 
 
     public function getArticleCategories($articleId) {
@@ -151,37 +131,11 @@ class Article {
               WHERE ac.article_id = ?";
 
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $articleId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $categories = array();
-
-        while ($row = $result->fetch_assoc()) {
-            $categories[] = $row;
-        }
+        $stmt->execute([$articleId]);
+        $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $categories;
     }
 
-    public function getArticleTags($articleId) {
-        $query = "SELECT t.id, t.name
-              FROM tags t
-              JOIN article_tags atag ON t.id = atag.tag_id
-              WHERE atag.article_id = ?";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $articleId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $tags = array();
-
-        while ($row = $result->fetch_assoc()) {
-            $tags[] = $row;
-        }
-
-        return $tags;
-    }
 
 }

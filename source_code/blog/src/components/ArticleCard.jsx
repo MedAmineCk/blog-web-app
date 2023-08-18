@@ -3,11 +3,11 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const ArticleCard = ({article}) => {
-    const {id, title, subtitle, imageUrl, time} = article
+    const {id, thumbnail_url, subtitle,  title, is_public, created_at, tags, categories} = article;
     return (
         <div className="article-card card">
             <div className="article-thumbnail">
-                <img src={imageUrl} alt={title}/>
+                <img src={`http://localhost/api/uploads/${thumbnail_url}`} alt={title}/>
             </div>
             <div className="article-content">
                 <div className="options-btn">
@@ -19,20 +19,10 @@ export const ArticleCard = ({article}) => {
                     <p className="article-subtitle">{subtitle}</p>
                 </div>
                 <div className="article-footer">
-                    <div className="time">{time}</div>
+                    <div className="time">{created_at}</div>
                     <Link to={`/article/${id}`} className="read-more">read more <LinkIcon/></Link>
                 </div>
             </div>
         </div>
     )
 }
-
-ArticleCard.propTypes = {
-    article: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        subtitle: PropTypes.string.isRequired,
-        imageUrl: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-    }).isRequired,
-};
