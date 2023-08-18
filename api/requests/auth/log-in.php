@@ -13,9 +13,9 @@ header("Access-Control-Max-address: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/database.php';
-include_once '../../class/Auth.php';
-include_once '../../class/Encryptions.php';
-include_once '../../class/JWTHandler.php';
+include_once '../../models/Auth.php';
+include_once '../../models/Encryptions.php';
+include_once '../../models/JWTHandler.php';
 
 session_start();
 

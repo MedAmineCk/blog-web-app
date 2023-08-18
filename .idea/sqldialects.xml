@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/api/DATABASE/console.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/api/DATABASE/create.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/api/DATABASE/insert.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/api/models/Article.php" dialect="MySQL" />
+  </component>
+</project>

@@ -13,22 +13,18 @@ header("Access-Control-Max-address: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 
-// Get JWT token from the query parameter
-$authToken = $_GET['token'];
+// Include necessary files and initialize the Category class
+require_once('../../config/database.php');
+require_once('../../models/Category.php');
 
-// Import JWTHandler class
-include_once '../../models/JWTHandler.php';
+$database = new Database();
+$db = $database->getConnection();
 
-// Initialize JWTHandler with your secret key
-$jwtHandler = new JWTHandler('your-secret-key');
+$category = new Category($db);
 
-// Verify the token
-if ($jwtHandler->verifyToken($authToken)) {
-    // Token is valid, send a response indicating validity
-    http_response_code(200);
-    echo json_encode(array("valid" => true));
-} else {
-    // Token is invalid, send a response indicating invalidity
-    http_response_code(401);
-    echo json_encode(array("valid" => false));
-}
+$categories = $category->getCategories();
+
+// Return categories as JSON response
+header('Content-Type: application/json');
+echo json_encode($categories);
+

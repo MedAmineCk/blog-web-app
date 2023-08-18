@@ -1,66 +1,113 @@
 import RichTextEditor from "../components/Articles/RichTextEditor.jsx";
+import {useState} from "react";
+import DataList from "../components/Articles/DataList.jsx";
+import TagInput from "../components/Articles/TagInput.jsx";
+import ThumbnailUpload from "../components/Articles/ThumbnailUpload.jsx";
+import axios from "axios";
+import {SaveLoading} from "../components/Shared/SaveLoading";
+import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 export const ArticleEditor = () => {
+    const navigate = useNavigate();
+    const [isPublic, setIsPublic] = useState(false);
+    const [thumbnailUrl, setThumbnailUrl] = useState('');
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [title, setTitle] = useState('');
+    const [subTitle, setSubTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const article = {
+        isPublic,
+        thumbnailUrl,
+        selectedCategoriesIds: selectedCategories.map((item) => item.id),
+        selectedTags: selectedTags.join(', '),
+        title,
+        subTitle,
+        content}
+
+    const handleSubmit = async () => {
+        console.log({article});
+        setIsLoading(true);
+
+        try {
+            const response = await axios.post("http://localhost/api/requests/article/create-article.php", article);
+            if(response.status === 201) {
+                console.log("Article created:", response.data);
+                setIsLoading(false);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Navigate to the articles page
+                    navigate("../articles"); // Replace with your articles page route
+                });
+            }else{
+                console.error("Unable to create article.");
+            }
+
+        } catch (error) {
+            console.error("Error creating article:", error);
+        }
+
+        setIsLoading(false);
+    };
+
     return (
         <main className="article-editor-page">
             <section className="header-bar flex-between">
                 <p>unsaved changes</p>
                 <div className="buttons flex-container">
-                    <button className="save">save</button>
+                    <button className="save" onClick={handleSubmit}>save</button>
                     <button className="cancel">cancel</button>
                 </div>
             </section>
             <section className="card article-details">
                 <div className="title-container">
                     <label htmlFor="title">Title</label><br/>
-                    <input type="text" name="title" id="title"/>
+                    <input type="text" name="title" id="title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
                 </div>
                 <div className="subtitle-container">
                     <label htmlFor="subtitle">Sub Title</label><br/>
-                    <textarea name="subtitle" id="subtitle"/>
+                    <textarea name="subtitle" id="subtitle" value={subTitle} onChange={(e)=>setSubTitle(e.target.value)}/>
                 </div>
             </section>
             <section className="card article-info">
-                <div className="container">
+                <div className="container visibility">
                     <div className="label">visibility</div>
-                    <label htmlFor="isPublic">publish</label>
-                    <input type="checkbox" name="isPublic" id="isPublic"/>
+                    <div className="toggle">
+                        <span onClick={() => setIsPublic(false)}>Draft</span>
+                        <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)}
+                               name="isPublic" id="isPublic"/>
+                        <span onClick={() => setIsPublic(true)}>Publish</span>
+                    </div>
                 </div>
                 <hr/>
-                <div className="container">
+                <div className="container thumbnail">
                     <div className="label">thumbnail</div>
-                    <div className="thumbnail-container"></div>
-                    <div className="buttons">
-                        <button>upload</button>
-                        <button>cancel</button>
-                    </div>
+                    <ThumbnailUpload onUpload={(url)=>setThumbnailUrl(url)}/>
                 </div>
                 <hr/>
-                <div className="container">
+                <div className="container categories">
                     <div className="label">categories</div>
-                    <select name="categories" id="categories">
-                        <option value="cat_1">cat_1</option>
-                        <option value="cat_2">cat_2</option>
-                        <option value="cat_3">cat_3</option>
-                    </select>
-                    <div className="selected-categories">
-                        <div className="cat-item">cat_1</div>
-                        <div className="cat-item">cat_2</div>
-                    </div>
+                    <DataList onCategoriesChange={(selectedItems)=>setSelectedCategories(selectedItems)}/>
                 </div>
                 <hr/>
-                <div className="container">
+                <div className="container tags">
                     <div className="label">Topics</div>
-                    <input type="text" id="topics"/>
-                    <div className="added-topics">
-                        <div className="topic-item">topic_1</div>
-                        <div className="topic-item">topic_2</div>
-                    </div>
+                    <TagInput onTagsChange={(updatedTags)=>setSelectedTags(updatedTags)}/>
                 </div>
             </section>
             <section className="card article-container">
-                <RichTextEditor />
+                <RichTextEditor onWriting={(content)=>setContent(content)}/>
             </section>
+            {isLoading ? <SaveLoading/> : null}
         </main>
+
     )
 }

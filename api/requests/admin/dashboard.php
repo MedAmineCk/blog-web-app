@@ -3,8 +3,8 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../../config/database.php';
-include_once '../../class/Dashboard.php';
-include_once '../../class/Encryptions.php';
+include_once '../../models/Dashboard.php';
+include_once '../../models/Encryptions.php';
 
 $conn = new Database();
 $db = $conn->getConnection();

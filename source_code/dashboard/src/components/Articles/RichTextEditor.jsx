@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
 
-const RichTextEditor = () => {
+const RichTextEditor = ({onWriting}) => {
     const [content, setContent] = useState('');
 
     const handleChange = (newContent) => {
         setContent(newContent);
+        onWriting(newContent);
     };
 
     const modules = {
@@ -40,14 +41,12 @@ const RichTextEditor = () => {
         ]
 
     return (
-        <div>
-            <ReactQuill
-                theme="snow"
-                value={content}
-                modules={modules}
-                formats={formats}
-                onChange={handleChange} />
-        </div>
+        <ReactQuill
+            theme="snow"
+            value={content}
+            modules={modules}
+            formats={formats}
+            onChange={handleChange} />
     );
 };
 

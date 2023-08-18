@@ -25,3 +25,45 @@
   white-space: nowrap;
   box-shadow: 4px 4px #000;
 }
+
+
+.save-loading{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  .saving {
+    font-size: 40px;
+    span {
+      font-size: 50px;
+      animation-name: blink;
+      animation-duration: 1.4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      &:nth-child(2) {
+        animation-delay: .2s;
+      }
+      &:nth-child(3) {
+        animation-delay: .4s;
+      }
+    }
+  }
+  @keyframes blink {
+    0% {
+      opacity: .2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: .2;
+    }
+  }
+}

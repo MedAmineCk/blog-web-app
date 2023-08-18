@@ -6,8 +6,8 @@ header("Access-Control-Max-address: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once '../../config/database.php';
-include_once '../../class/Users.php';
-include_once '../../class/Encryptions.php';
+include_once '../../models/Users.php';
+include_once '../../models/Encryptions.php';
 
 $database = new Database();
 $db = $database->getConnection();
