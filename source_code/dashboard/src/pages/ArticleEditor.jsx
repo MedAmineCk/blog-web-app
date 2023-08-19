@@ -7,6 +7,7 @@ import axios from "axios";
 import {SaveLoading} from "../components/Shared/SaveLoading";
 import Swal from "sweetalert2";
 import {useNavigate} from "react-router-dom";
+import {MdOutlineImageNotSupported} from "react-icons/md";
 
 export const ArticleEditor = () => {
     const navigate = useNavigate();
@@ -18,9 +19,11 @@ export const ArticleEditor = () => {
     const [subTitle, setSubTitle] = useState('');
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isPinned, setIsPinned] = useState(false);
 
     const article = {
         isPublic,
+        isPinned,
         thumbnailUrl,
         selectedCategoriesIds: selectedCategories.map((item) => item.id),
         selectedTags: selectedTags.join(', '),
@@ -79,13 +82,18 @@ export const ArticleEditor = () => {
             </section>
             <section className="card article-info">
                 <div className="container visibility">
-                    <div className="label">visibility</div>
                     <div className="toggle">
                         <span onClick={() => setIsPublic(false)}>Draft</span>
                         <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)}
                                name="isPublic" id="isPublic"/>
                         <span onClick={() => setIsPublic(true)}>Publish</span>
                     </div>
+                </div>
+                <hr/>
+                <div className="container pinned">
+                    <input type="checkbox" checked={isPinned} onChange={(e) => setIsPinned(e.target.checked)}
+                           name="isPinned" id="isPinned"/>
+                    <label htmlFor="isPinned">{isPinned ? 'Pinned' : 'unPinned'}</label>
                 </div>
                 <hr/>
                 <div className="container thumbnail">

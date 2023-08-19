@@ -31,6 +31,7 @@ if (
 ) {
     // Extract the data
     $isPublic = $data->isPublic;
+    $isPinnned = $data->isPinned;
     $thumbnailUrl = $data->thumbnailUrl;
     $selectedCategoriesIds = $data->selectedCategoriesIds;
     $selectedTags = $data->selectedTags;
@@ -39,7 +40,7 @@ if (
     $content = $data->content;
 
     // Create the article
-    $articleId = $article->createArticle($title, $subTitle, $content, $thumbnailUrl, $isPublic, $selectedCategoriesIds, $selectedTags);
+    $articleId = $article->createArticle($title, $subTitle, $content, $thumbnailUrl, $isPublic, $isPinnned, $selectedCategoriesIds, $selectedTags);
 
     if ($articleId) {
         http_response_code(201); // Created

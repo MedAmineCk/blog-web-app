@@ -114,11 +114,22 @@ main.article-editor-page {
               }
             }
           }
+          &.pinned{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            input{
+              $size: 24px;
+              width: $size;
+              height: $size;
+            }
+          }
 
           &.thumbnail{
+            position: relative;
             .thumbnail-container{
               width: 100%;
-              height: 120px;
+              height: 160px;
               background: #eeeeee;
               border: 2px solid #000;
               border-radius: 12px;
@@ -156,18 +167,20 @@ main.article-editor-page {
                 object-fit: cover;
               }
             }
-
-            .buttons{
-              gap: 10px;
-              button{
-                padding: 10px 20px;
-                border: 2px solid #000;
-                &.upload{
-                  width: 100%;
-                }
-              }
+            .remove-img{
+              position: absolute;
+              top: 60px;
+              right: 15px;
+              background: orange;
+              $size: 35px;
+              width: $size;
+              height: $size;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: $size;
+              cursor: pointer;
             }
-
           }
 
           &.categories{
@@ -322,6 +335,9 @@ main.article-editor-page {
     &.article-container{
       grid-row: 2;
       grid-column: 1;
+      .quill{
+        height: 100%;
+      }
     }
   }
 }

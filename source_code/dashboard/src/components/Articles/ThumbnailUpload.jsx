@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BsCardImage } from 'react-icons/bs';
+import {MdOutlineImageNotSupported} from "react-icons/md";
 
 const ThumbnailUpload = ({ onUpload }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -45,9 +46,8 @@ const ThumbnailUpload = ({ onUpload }) => {
                     </div>
                 )}
             </label>
-            <div className="buttons flex-container">
-                <button onClick={()=>setPreviewUrl(null)}>cancel</button>
-            </div>
+            {previewUrl ? (<div className="remove-img" onClick={()=>setPreviewUrl(null)}><MdOutlineImageNotSupported/></div>): true}
+
         </div>
     );
 };

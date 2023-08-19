@@ -6,9 +6,9 @@ class Article {
         $this->conn = $db;
     }
 
-    public function createArticle($title, $subtitle, $content, $thumbnailUrl, $isPublic, $categoryIds, $selectedTags) {
-        $query = "INSERT INTO articles (title, subtitle, content, thumbnail_url, is_public, tags) 
-                VALUES (:title, :subtitle, :content, :thumbnailUrl, :isPublic, :tags)";
+    public function createArticle($title, $subtitle, $content, $thumbnailUrl, $isPublic, $isPinned, $categoryIds, $selectedTags) {
+        $query = "INSERT INTO articles (title, subtitle, content, thumbnail_url, is_public, is_pinned, tags) 
+                VALUES (:title, :subtitle, :content, :thumbnailUrl, :isPublic, :isPinned, :tags)";
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':title', $title);
@@ -16,6 +16,7 @@ class Article {
         $stmt->bindParam(':content', $content);
         $stmt->bindParam(':thumbnailUrl', $thumbnailUrl);
         $stmt->bindParam(':isPublic', $isPublic);
+        $stmt->bindParam(':isPinned', $isPinned);
         $stmt->bindParam(':tags', $selectedTags);
 
         if ($stmt->execute()) {
@@ -42,30 +43,42 @@ class Article {
 
 
 
-    public function updateArticle($articleId, $title, $subtitle, $content, $thumbnailUrl, $isPublic, $categoryIds, $tagIds) {
-        $stmt = $this->conn->prepare("UPDATE articles SET title=?, subtitle=?, content=?, thumbnail_url=?, is_public=? WHERE id=?");
-        $stmt->bind_param("ssssii", $title, $subtitle, $content, $thumbnailUrl, $isPublic, $articleId);
+    public function updateArticle($articleId, $title, $subtitle, $content, $thumbnailUrl, $isPublic, $isPinned, $categoryIds, $tagIds) {
+        $updateQuery = "UPDATE articles 
+                    SET title = :title, subtitle = :subtitle, content = :content, 
+                        thumbnail_url = :thumbnailUrl, is_public = :isPublic, is_pinned = :isPinned
+                    WHERE id = :articleId";
 
-        if ($stmt->execute()) {
-            $stmt->close();
+        $updateStatement = $this->conn->prepare($updateQuery);
+        $params = [
+            ':title' => $title,
+            ':subtitle' => $subtitle,
+            ':content' => $content,
+            ':thumbnailUrl' => $thumbnailUrl,
+            ':isPublic' => $isPublic,
+            ':isPinned' => $isPinned,
+            ':articleId' => $articleId
+        ];
 
-            $this->deleteArticleCategories($articleId); // Delete existing category relationships
-
-            $this->insertArticleCategories($articleId, $categoryIds); // Insert new category relationships
+        if ($updateStatement->execute($params)) {
+            $this->deleteArticleCategories($articleId);
+            $this->insertArticleCategories($articleId, $categoryIds);
 
             return true;
         } else {
-            $stmt->close();
             return false;
         }
     }
 
+
     private function deleteArticleCategories($articleId) {
-        $stmt = $this->conn->prepare("DELETE FROM article_categories WHERE article_id = ?");
-        $stmt->bind_param("i", $articleId);
-        $stmt->execute();
-        $stmt->close();
+        $deleteQuery = "DELETE FROM article_categories WHERE article_id = :articleId";
+        $deleteStatement = $this->conn->prepare($deleteQuery);
+        $deleteStatement->bindParam(':articleId', $articleId, PDO::PARAM_INT);
+
+        return $deleteStatement->execute();
     }
+
 
 
 
@@ -74,17 +87,17 @@ class Article {
         $this->deleteArticleCategories($articleId);
 
         // Delete the article itself
-        $stmt = $this->conn->prepare("DELETE FROM articles WHERE id = ?");
-        $stmt->bind_param("i", $articleId);
+        $deleteArticleQuery = "DELETE FROM articles WHERE id = :articleId";
+        $deleteArticleStatement = $this->conn->prepare($deleteArticleQuery);
+        $deleteArticleStatement->bindParam(':articleId', $articleId, PDO::PARAM_INT);
 
-        if ($stmt->execute()) {
-            $stmt->close();
+        if ($deleteArticleStatement->execute()) {
             return true;
         } else {
-            $stmt->close();
             return false;
         }
     }
+
 
 
     public function getArticle($articleId) {

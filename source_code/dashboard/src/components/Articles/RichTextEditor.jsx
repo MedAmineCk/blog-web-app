@@ -11,7 +11,7 @@ const RichTextEditor = ({onWriting}) => {
     };
 
     return (
-        <ReactQuill theme="snow" value={content} onChange={handleChange} />
+        <ReactQuill theme="snow" value={content} onChange={handleChange}/>
     );
 };
 

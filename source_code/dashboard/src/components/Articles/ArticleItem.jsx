@@ -5,7 +5,7 @@ import {BiLinkExternal, BiSolidEdit} from "react-icons/bi";
 import {useEffect, useState} from "react";
 
 
-export const ArticleItem = ({article, totalChecked}) => {
+export const ArticleItem = ({article, totalChecked, onDeleting}) => {
     const {id, thumbnail_url, subtitle,  title, is_public, created_at, tags, categories} = article;
     const reads = 0;
     const comments = 0;
@@ -18,6 +18,10 @@ export const ArticleItem = ({article, totalChecked}) => {
     useEffect(() => {
         setIsArticleChecked(totalChecked)
     }, [totalChecked]);
+
+    const handleArticleDeleting = ()=>{
+        onDeleting(id)
+    }
 
     return (
         <tr className="article">
@@ -35,7 +39,11 @@ export const ArticleItem = ({article, totalChecked}) => {
                 <div className="date">{created_at}</div>
             </td>
             <td className="category">{categories.map(cat => cat.name).join(', ')}</td>
-            <td className="type">{tags}</td>
+            <td className="status">
+                <div className={`status-container ${is_public?'published':'draft'}`}>
+                    {is_public?'published':'draft'}
+                </div>
+            </td>
             <td className="data">
                 <div className="container">
                     <div className="flex-container">
@@ -62,7 +70,7 @@ export const ArticleItem = ({article, totalChecked}) => {
                 <button className="edite">
                     <BiSolidEdit/>
                 </button>
-                <button className="delete">
+                <button className="delete" onClick={handleArticleDeleting}>
                     <MdDeleteForever/>
                 </button>
                 <button className="link">
