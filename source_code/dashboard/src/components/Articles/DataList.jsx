@@ -3,29 +3,42 @@ import {FiSearch} from "react-icons/fi";
 import {CgRemoveR} from "react-icons/cg";
 import axios from "axios";
 
-const DataList = ({onCategoriesChange}) => {
+const DataList = ({preSelectedCategories, onCategoriesChange}) => {
 
     const [dataList, setDataList] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [active, setActive] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]);
+    const [selectedItems, setSelectedItems] = useState(preSelectedCategories || []);
 
     useEffect(() => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        onCategoriesChange(selectedItems)
+    }, [selectedItems]);
+
+
+
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost/api/requests/category/get-categories.php');
             const categories = response.data;
-            const list = categories.map(cat => ({ ...cat, isChecked: false }));
+
+            const list = categories.map(cat => {
+                // Check if the current category is pre-selected
+                const isSelected = preSelectedCategories.some(selectedCat => selectedCat.id === cat.id);
+
+                // Set isChecked based on isSelected
+                return { ...cat, isChecked: isSelected };
+            });
+
             setDataList(list);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
     };
 
-    onCategoriesChange(selectedItems);
 
     const handleFocus = () => {
         setActive(true);
@@ -47,12 +60,14 @@ const DataList = ({onCategoriesChange}) => {
         } else {
             setSelectedItems(prevItems => prevItems.filter(item => item.id !== id));
         }
+        onCategoriesChange(selectedItems);
     };
 
     const handleRemoveItem = (id) => {
         const updatedDataList = dataList.map(item => item.id === id ? { ...item, isChecked: false } : item);
         setDataList(updatedDataList);
         setSelectedItems(prevItems => prevItems.filter(item => item.id !== id));
+        onCategoriesChange(selectedItems);
     };
 
     const displayData = () => {

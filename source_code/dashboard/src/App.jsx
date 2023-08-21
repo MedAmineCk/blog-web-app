@@ -23,7 +23,8 @@ function App() {
                     <Route path="/dashboard" element={<DashboardLayout />}>
                         <Route index element={<Home />} />
                         <Route path="articles" element={<Articles />} />
-                        <Route path="editor" element={<ArticleEditor />} />
+                        <Route path="create-article" element={<ArticleEditor />} />
+                        <Route path="edit-article/:id" element={<ArticleEditor />} />
                         <Route path="reviews" element={<Reviews />} />
                         <Route path="ads" element={<Ads />} />
                         <Route path="settings" element={<Settings />} />

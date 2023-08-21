@@ -111,7 +111,7 @@ export const Header = () => {
                 </div>
             </div>
             <div className="flex-container">
-                <Link to="/dashboard/editor" className="write flex-container">
+                <Link to="/dashboard/create-article" className="write flex-container">
                     <span>Write</span>
                     <span className="icon-container">
                         <FiEdit2/>

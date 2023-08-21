@@ -1,13 +1,12 @@
 import RichTextEditor from "../components/Articles/RichTextEditor.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DataList from "../components/Articles/DataList.jsx";
 import TagInput from "../components/Articles/TagInput.jsx";
 import ThumbnailUpload from "../components/Articles/ThumbnailUpload.jsx";
 import axios from "axios";
 import {SaveLoading} from "../components/Shared/SaveLoading";
 import Swal from "sweetalert2";
-import {useNavigate} from "react-router-dom";
-import {MdOutlineImageNotSupported} from "react-icons/md";
+import {useNavigate, useParams} from "react-router-dom";
 
 export const ArticleEditor = () => {
     const navigate = useNavigate();
@@ -21,45 +20,112 @@ export const ArticleEditor = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isPinned, setIsPinned] = useState(false);
 
-    const article = {
-        isPublic,
-        isPinned,
-        thumbnailUrl,
-        selectedCategoriesIds: selectedCategories.map((item) => item.id),
-        selectedTags: selectedTags.join(', '),
-        title,
-        subTitle,
-        content}
+    const { id: articleId } = useParams();
+    const [dataLoaded, setDataLoaded] = useState(false);
+
+    useEffect(() => {
+        if (articleId) {
+            // Fetch existing article data and set the state
+            fetchArticleData();
+        } else {
+            // Set the state for new article creation
+            setDataLoaded(true);
+        }
+    }, [articleId]);
+
+    const fetchArticleData = async () => {
+        try {
+            const response = await axios.get(`http://localhost/api/requests/article/get-article.php?id=${articleId}`);
+            const existingArticleData = response.data;
+            // Set the state with existing article data
+            setIsPublic(existingArticleData.is_public);
+            setThumbnailUrl(existingArticleData.thumbnail_url);
+            setSelectedCategories(existingArticleData.categories);
+            setSelectedTags(existingArticleData.tags.split(', '));
+            setTitle(existingArticleData.title);
+            setSubTitle(existingArticleData.subtitle);
+            setContent(existingArticleData.content);
+            setIsPinned(existingArticleData.is_pinned);
+            setDataLoaded(true);
+        } catch (error) {
+            console.error("Error fetching article:", error);
+        }
+    };
 
     const handleSubmit = async () => {
-        console.log({article});
+        let article = {
+            isPublic,
+            isPinned,
+            thumbnailUrl,
+            selectedCategoriesIds: selectedCategories.map((item) => item.id),
+            selectedTags: selectedTags.join(', '),
+            title,
+            subTitle,
+            content}
         setIsLoading(true);
 
-        try {
-            const response = await axios.post("http://localhost/api/requests/article/create-article.php", article);
-            if(response.status === 201) {
-                console.log("Article created:", response.data);
-                setIsLoading(false);
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Your work has been saved',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    // Navigate to the articles page
-                    navigate("../articles"); // Replace with your articles page route
-                });
-            }else{
-                console.error("Unable to create article.");
+        if (articleId) {
+            article = {...article, id: articleId};
+            console.log({article})
+            // Update existing article logic
+            try {
+                const response = await axios.put(`http://localhost/api/requests/article/update-article.php`, article);
+                console.log(response)
+                if (response.status === 200) {
+                    console.log("Article updated:", response.data);
+                    setIsLoading(false);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your changes have been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Navigate back to the articles page or the updated article's page
+                        navigate("../articles"); // Adjust the route based on your project structure
+                    });
+                } else {
+                    console.error("Unable to update article.");
+                }
+            } catch (error) {
+                console.error("Error updating article:", error);
             }
+        } else {
+            // Create new article logic
+            try {
+                const response = await axios.post("http://localhost/api/requests/article/create-article.php", article);
+                if(response.status === 201) {
+                    console.log("Article created:", response.data);
+                    setIsLoading(false);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Navigate to the articles page
+                        navigate("../articles"); // Replace with your articles page route
+                    });
+                }else{
+                    console.error("Unable to create article.");
+                }
 
-        } catch (error) {
-            console.error("Error creating article:", error);
+            } catch (error) {
+                console.error("Error creating article:", error);
+            }
         }
 
         setIsLoading(false);
     };
+
+    const handleCategoriesChange = (selectedItems) =>{
+        setSelectedCategories(selectedItems)
+    }
+
+    const handleTagsChange = (updatedTags) => {
+        setSelectedTags(updatedTags)
+    }
 
     return (
         <main className="article-editor-page">
@@ -98,21 +164,23 @@ export const ArticleEditor = () => {
                 <hr/>
                 <div className="container thumbnail">
                     <div className="label">thumbnail</div>
-                    <ThumbnailUpload onUpload={(url)=>setThumbnailUrl(url)}/>
+                    {dataLoaded && <ThumbnailUpload
+                        existingThumbnailUrl={thumbnailUrl}
+                        onUpload={(url) => setThumbnailUrl(url)}/>}
                 </div>
                 <hr/>
                 <div className="container categories">
                     <div className="label">categories</div>
-                    <DataList onCategoriesChange={(selectedItems)=>setSelectedCategories(selectedItems)}/>
+                    {dataLoaded && <DataList preSelectedCategories={selectedCategories} onCategoriesChange={handleCategoriesChange} />}
                 </div>
                 <hr/>
                 <div className="container tags">
                     <div className="label">Topics</div>
-                    <TagInput onTagsChange={(updatedTags)=>setSelectedTags(updatedTags)}/>
+                    {dataLoaded && <TagInput preSelectedTags={selectedTags} onTagsChange={handleTagsChange}/>}
                 </div>
             </section>
             <section className="card article-container">
-                <RichTextEditor onWriting={(content)=>setContent(content)}/>
+                <RichTextEditor article_content={content} onWriting={(content)=>setContent(content)}/>
             </section>
             {isLoading ? <SaveLoading/> : null}
         </main>

@@ -43,11 +43,11 @@ class Article {
 
 
 
-    public function updateArticle($articleId, $title, $subtitle, $content, $thumbnailUrl, $isPublic, $isPinned, $categoryIds, $tagIds) {
+    public function updateArticle($articleId, $title, $subtitle, $content, $thumbnailUrl, $isPublic, $isPinned, $selectedTags, $categoryIds) {
         $updateQuery = "UPDATE articles 
-                    SET title = :title, subtitle = :subtitle, content = :content, 
-                        thumbnail_url = :thumbnailUrl, is_public = :isPublic, is_pinned = :isPinned
-                    WHERE id = :articleId";
+                SET title = :title, subtitle = :subtitle, content = :content, 
+                    thumbnail_url = :thumbnailUrl, is_public = :isPublic, is_pinned = :isPinned, tags = :tags
+                WHERE id = :articleId";
 
         $updateStatement = $this->conn->prepare($updateQuery);
         $params = [
@@ -57,6 +57,7 @@ class Article {
             ':thumbnailUrl' => $thumbnailUrl,
             ':isPublic' => $isPublic,
             ':isPinned' => $isPinned,
+            ':tags' => $selectedTags,
             ':articleId' => $articleId
         ];
 
@@ -69,6 +70,7 @@ class Article {
             return false;
         }
     }
+
 
 
     private function deleteArticleCategories($articleId) {

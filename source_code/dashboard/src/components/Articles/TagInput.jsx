@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {CgRemoveR} from "react-icons/cg";
 import {CiCircleRemove} from "react-icons/ci";
 
-const TagInput = ({onTagsChange}) => {
-    const [tags, setTags] = useState([]);
+const TagInput = ({onTagsChange, preSelectedTags}) => {
+    const [tags, setTags] = useState(preSelectedTags || []);
     const [inputValue, setInputValue] = useState('');
 
     onTagsChange(tags);
